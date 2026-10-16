@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import PressBar from '../components/PressBar.astro';
+import ClientCarousel from '../components/ClientCarousel.astro';
+import Services from '../components/Services.astro';
+import Founder from '../components/Founder.astro';
+import Stats from '../components/Stats.astro';
+import Router from '../components/Router.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Tedx from '../components/Tedx.astro';
+import FinalCta from '../components/FinalCta.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="For Creators By Creators | A law firm built for creators & entrepreneurs"
+  description="For Creators By Creators PC represents content creators, social media influencers, small businesses, and individuals. Brand deals, trademarks, contracts, and more. Book a free consult."
+>
+  <Hero />
+  <main id="main">
+    <PressBar />
+    <ClientCarousel />
+    <Services />
+    <Founder />
+    <Stats />
+    <Router />
+    <Testimonials />
+    <Tedx />
+    <FinalCta />
+  </main>
+  <Footer />
+</Base>

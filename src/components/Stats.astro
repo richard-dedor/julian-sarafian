@@ -1,0 +1,56 @@
+---
+import { stats } from '../data/site';
+---
+
+<section aria-labelledby="stats-title">
+  <div class="container">
+    <h2 id="stats-title">Our Firm services…</h2>
+    <ul>
+      {
+        stats.map((s) => (
+          <li>
+            <span class="big">{s.big}</span>
+            <span class="small">{s.small}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  section {
+    background: var(--sand);
+    padding: clamp(56px, 7vw, 96px) 0;
+  }
+  h2 {
+    margin: 0 0 28px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 32px;
+  }
+  li {
+    border-top: 2px solid var(--navy);
+    padding-top: 16px;
+  }
+  .big {
+    display: block;
+    font-size: clamp(44px, 4.4vw, 64px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .small {
+    display: block;
+    font-size: 16px;
+    color: var(--slate);
+    margin-top: 8px;
+  }
+</style>

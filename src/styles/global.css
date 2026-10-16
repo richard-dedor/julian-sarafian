@@ -1,0 +1,126 @@
+/* Design tokens and base styles. Rules from the design spec:
+   no border-radius, no shadows, one font (Schibsted Grotesk). */
+
+:root {
+  --navy: #0a1e3f;
+  --cream: #f6f3ee;
+  --sand: #e9e4da;
+  --rule-light: #d9d3c7;
+  --rule-dark: #2a4677;
+  --peri: #9db5db;
+  --peri-mid: #6d8dbb;
+  --peri-deep: #4f6fa0;
+  --slate: #4a5873;
+  --body-ink: #1e2c47;
+  --mist: #c9d4e6;
+  --mist-2: #d5deec;
+  --mist-3: #b9c6dc;
+  --tile-bg: #c9d6ea;
+
+  --font: 'Schibsted Grotesk', system-ui, sans-serif;
+  --max: 1240px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --section-y: clamp(64px, 8vw, 112px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--navy);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--navy);
+}
+a:hover {
+  color: var(--peri-deep);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--peri-mid);
+  outline-offset: 3px;
+}
+
+h1,
+h2 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.h2 {
+  font-weight: 600;
+  font-size: clamp(40px, 4.8vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 100;
+  background: var(--cream);
+  color: var(--navy);
+  padding: 12px 16px;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 16px;
+}

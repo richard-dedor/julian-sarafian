@@ -1,0 +1,170 @@
+---
+import { routerOptions, CONSULT_URL } from '../data/site';
+---
+
+<section id="router" aria-labelledby="router-title">
+  <div class="container">
+    <h2 id="router-title" class="h2">What’s going on?</h2>
+    <div class="list" data-accordion>
+      {
+        routerOptions.map((o, i) => (
+          <div class="item">
+            <h3>
+              <button type="button" aria-expanded="false" aria-controls={`router-panel-${i}`} id={`router-q-${i}`}>
+                <span>{o.question}</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </button>
+            </h3>
+            <div class="panel" id={`router-panel-${i}`} role="region" aria-labelledby={`router-q-${i}`} inert>
+              <div class="clip">
+                <div class="inner">
+                  <div class="answer">
+                    <span class="area">{o.area}</span>
+                    <p>{o.body}</p>
+                    <a class="btn" href={CONSULT_URL}>Grab a free consult</a>
+                  </div>
+                  <figure>
+                    <blockquote>“{o.quote}”</blockquote>
+                    <figcaption>{o.who}</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    background: var(--navy);
+    color: var(--cream);
+    padding: var(--section-y) 0;
+  }
+  h2 {
+    margin-bottom: 48px;
+  }
+  .list {
+    border-top: 1px solid var(--rule-dark);
+  }
+  .item {
+    border-bottom: 1px solid var(--rule-dark);
+  }
+  h3 {
+    margin: 0;
+    font: inherit;
+  }
+  button {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 26px 0;
+    border: 0;
+    background: transparent;
+    color: var(--peri);
+    font-size: clamp(22px, 2.4vw, 34px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  button:hover,
+  button[aria-expanded='true'] {
+    color: var(--cream);
+  }
+  .plus {
+    font-size: 28px;
+    transition: transform 0.3s;
+  }
+  button[aria-expanded='true'] .plus {
+    transform: rotate(45deg);
+  }
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease;
+  }
+  .panel.open {
+    grid-template-rows: 1fr;
+  }
+  .clip {
+    overflow: hidden;
+  }
+  .inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 32px 64px;
+    padding: 0 0 36px;
+  }
+  .answer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .area {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--peri);
+  }
+  .answer p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--mist);
+  }
+  .answer .btn {
+    background: var(--peri-mid);
+    color: var(--navy);
+    padding: 14px 22px;
+  }
+  .answer .btn:hover {
+    background: var(--cream);
+    color: var(--navy);
+  }
+  figure {
+    margin: 0;
+    border-left: 3px solid var(--peri-mid);
+    padding-left: 24px;
+  }
+  blockquote {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  figcaption {
+    font-size: 15px;
+    color: var(--peri);
+    margin-top: 12px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel,
+    .plus {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-accordion]').forEach((root) => {
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[aria-controls]')];
+    const setOpen = (btn: HTMLButtonElement, open: boolean) => {
+      const panel = document.getElementById(btn.getAttribute('aria-controls')!)!;
+      btn.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('open', open);
+      panel.inert = !open;
+    };
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const wasOpen = btn.getAttribute('aria-expanded') === 'true';
+        buttons.forEach((b) => setOpen(b, false));
+        if (!wasOpen) setOpen(btn, true);
+      }),
+    );
+  });
+</script>

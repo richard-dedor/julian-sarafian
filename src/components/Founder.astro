@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import julian from '../assets/julian.jpg';
+---
+
+<section class="container" aria-labelledby="founder-title">
+  <div class="left">
+    <h2 id="founder-title">You’re a creator.<br /><span>I’m a lawyer.</span></h2>
+    <Image src={julian} alt="Julian Sarafian, Founder" widths={[440, 880]} sizes="(min-width: 480px) 440px, 100vw" />
+  </div>
+  <div class="right">
+    <p>Hi, I'm Julian Sarafian, our firm's Founder. It’s nice to meet you! After attending Berkeley and Harvard Law School I struck out on my own to represent the “little guys” in social media: content creators.</p>
+    <p>For content creators, I also help them land brand deals so they can monetize and negotiate brand deal terms on their behalf to get them better deals. I know firsthand what it’s like to be a content creator because I’m one myself - currently reaching nearly 400,000 folks across various platforms.</p>
+    <p>Reach out anytime for a free consult, I’d love to work together!</p>
+  </div>
+</section>
+
+<style>
+  section {
+    padding-top: clamp(72px, 9vw, 128px);
+    padding-bottom: clamp(72px, 9vw, 128px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: clamp(40px, 6vw, 96px);
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  h2 {
+    font-weight: 600;
+    font-size: clamp(40px, 4.6vw, 68px);
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -0.035em;
+  }
+  h2 span {
+    color: var(--peri-mid);
+  }
+  .left :global(img) {
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--body-ink);
+    align-self: end;
+  }
+  .right p {
+    margin: 0;
+  }
+</style>

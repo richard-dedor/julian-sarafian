@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-transparent.png';
+import { footerLinks } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <Image src={logo} alt="For Creators, By Creators" height={48} densities={[1, 2]} class="logo" />
+      <nav aria-label="Footer">
+        {footerLinks.map((l) => (l.href ? <a href={l.href}>{l.label}</a> : <span>{l.label}</span>))}
+      </nav>
+    </div>
+    <p>
+      © 2022-{year} For Creators by Creators PC, 705 E Bidwell Street, 2-303, Folsom, CA 95630. The content on For Creators by Creators PC's website is for informational purposes only and does not constitute legal advice. Communication through this site or email does not establish an attorney-client relationship.
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--navy);
+    color: var(--mist-3);
+    padding: 48px 0;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .row :global(.logo) {
+    height: 48px;
+    width: auto;
+  }
+  nav {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 15px;
+  }
+  a {
+    color: var(--mist-3);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--peri);
+  }
+  p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    max-width: 900px;
+  }
+</style>
