@@ -1,5 +1,6 @@
 ---
-import { CONSULT_URL, NEWSLETTER_URL } from '../data/site';
+import NewsletterForm from './NewsletterForm.astro';
+import { CONSULT_URL } from '../data/site';
 ---
 
 <section id="contact" class="container" aria-labelledby="cta-title">
@@ -9,14 +10,7 @@ import { CONSULT_URL, NEWSLETTER_URL } from '../data/site';
     <p id="newsletter" class="blurb">
       Join the For Creators By Creators Creator Intel Newsletter for tips, insight, and guidance on how to grow, protect, and monetize your brand.
     </p>
-    <form data-newsletter data-endpoint={NEWSLETTER_URL} novalidate>
-      <label class="visually-hidden" for="nl-email">Email address</label>
-      <div class="field">
-        <input id="nl-email" name="email" type="email" autocomplete="email" placeholder="Email Address" required aria-describedby="nl-status" />
-        <button type="submit">Subscribe →</button>
-      </div>
-      <p id="nl-status" class="status" role="status" aria-live="polite"></p>
-    </form>
+    <NewsletterForm id="nl-home" />
   </div>
 </section>
 
@@ -58,91 +52,4 @@ import { CONSULT_URL, NEWSLETTER_URL } from '../data/site';
     line-height: 1.55;
     color: var(--slate);
   }
-  .field {
-    display: flex;
-    border-bottom: 2px solid var(--navy);
-  }
-  input {
-    flex: 1;
-    min-width: 0;
-    border: 0;
-    background: transparent;
-    padding: 14px 0;
-    font-size: 18px;
-    outline: none;
-    color: var(--navy);
-  }
-  input::placeholder {
-    color: var(--slate);
-  }
-  .field:focus-within {
-    outline: 2px solid var(--peri-mid);
-    outline-offset: 4px;
-  }
-  button {
-    border: 0;
-    background: transparent;
-    font-weight: 700;
-    cursor: pointer;
-    color: var(--navy);
-    font-size: 16px;
-  }
-  button:hover {
-    color: var(--peri-deep);
-  }
-  button:disabled {
-    opacity: 0.5;
-    cursor: wait;
-  }
-  .status {
-    margin: 10px 0 0;
-    min-height: 1.5em;
-    font-size: 15px;
-    color: var(--slate);
-  }
-  .status.error {
-    color: var(--navy);
-    font-weight: 600;
-  }
 </style>
-
-<script>
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-  document.querySelectorAll<HTMLFormElement>('[data-newsletter]').forEach((form) => {
-    const input = form.querySelector('input')!;
-    const button = form.querySelector('button')!;
-    const status = form.querySelector<HTMLElement>('.status')!;
-    const endpoint = form.dataset.endpoint;
-
-    const show = (msg: string, isError = false) => {
-      status.textContent = msg;
-      status.classList.toggle('error', isError);
-      input.setAttribute('aria-invalid', String(isError));
-    };
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = input.value.trim();
-      if (!EMAIL_RE.test(email)) return show('Please enter a valid email address.', true);
-      if (!endpoint) return show('Newsletter signup is coming soon. Please check back shortly.', true);
-
-      button.disabled = true;
-      show('Subscribing…');
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
-        if (!res.ok) throw new Error(String(res.status));
-        form.reset();
-        show('Thanks! You’re subscribed.');
-      } catch {
-        show('Something went wrong. Please try again.', true);
-      } finally {
-        button.disabled = false;
-      }
-    });
-  });
-</script>

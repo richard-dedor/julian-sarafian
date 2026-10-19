@@ -1,9 +1,9 @@
 ---
 import { Image } from 'astro:assets';
-import logoWhite from '../assets/logo-white.png';
 import julian from '../assets/julian.jpg';
 import julian2 from '../assets/julian-2.jpg';
-import { nav, CONSULT_URL, HERO_VIDEO } from '../data/site';
+import SiteHeader from './SiteHeader.astro';
+import { CONSULT_URL, HERO_VIDEO } from '../data/site';
 
 const hasVideo = Boolean(HERO_VIDEO.mp4 || HERO_VIDEO.webm);
 ---
@@ -26,14 +26,7 @@ const hasVideo = Boolean(HERO_VIDEO.mp4 || HERO_VIDEO.webm);
   </div>
   <div class="scrim"></div>
 
-  <header class="top">
-    <a href="/" aria-label="For Creators, By Creators home">
-      <Image src={logoWhite} alt="For Creators, By Creators" height={44} densities={[1, 2]} class="logo" loading="eager" />
-    </a>
-    <nav aria-label="Main">
-      {nav.map((l) => <a href={l.href}>{l.label}</a>)}
-    </nav>
-  </header>
+  <SiteHeader />
 
   <div class="copy">
     <h1>A law firm built for creators &amp; entrepreneurs</h1>
@@ -97,34 +90,6 @@ const hasVideo = Boolean(HERO_VIDEO.mp4 || HERO_VIDEO.webm);
     inset: 0;
     background: linear-gradient(90deg, rgba(10, 30, 63, 0.92) 0%, rgba(10, 30, 63, 0.7) 45%, rgba(10, 30, 63, 0.15) 100%);
     pointer-events: none;
-  }
-  .top {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding: 22px var(--gutter);
-  }
-  .top :global(.logo) {
-    height: 44px;
-    width: auto;
-  }
-  nav {
-    display: flex;
-    gap: 26px;
-    flex-wrap: wrap;
-    align-items: center;
-    font-size: 15px;
-    font-weight: 500;
-  }
-  nav a {
-    text-decoration: none;
-    color: var(--cream);
-  }
-  nav a:hover {
-    color: var(--peri);
   }
   .copy {
     position: relative;

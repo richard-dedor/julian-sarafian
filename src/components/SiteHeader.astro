@@ -1,0 +1,49 @@
+---
+// Shared site header (logo + main nav). Sits on a navy background.
+import { Image } from 'astro:assets';
+import logoWhite from '../assets/logo-white.png';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="site-header">
+  <a href="/" aria-label="For Creators, By Creators home">
+    <Image src={logoWhite} alt="For Creators, By Creators" height={44} densities={[1, 2]} class="logo" loading="eager" />
+  </a>
+  <nav aria-label="Main">
+    {nav.map((l) => <a href={l.href} aria-current={l.href === path ? 'page' : undefined}>{l.label}</a>)}
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px var(--gutter);
+    color: var(--cream);
+  }
+  .site-header :global(.logo) {
+    height: 44px;
+    width: auto;
+  }
+  nav {
+    display: flex;
+    gap: 26px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--cream);
+  }
+  nav a:hover {
+    color: var(--peri);
+  }
+</style>

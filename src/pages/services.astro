@@ -1,0 +1,176 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import ServiceList from '../components/ServiceList.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import Footer from '../components/Footer.astro';
+import { rates, CONTACT_URL } from '../data/site';
+---
+
+<Base
+  title="Services | For Creators By Creators"
+  description="Corporate formation, brand deal negotiation, trademarking, stolen content, defamation, venture capital, and more for creators and small businesses. Rates and packages."
+>
+  <div class="hero">
+    <SiteHeader />
+    <div class="container hero-copy">
+      <h1>Our Services</h1>
+      <p>
+        I’m a legal generalist with an expertise in transactional work. Check out my practice areas below and{' '}
+        <a href={CONTACT_URL}>contact me to learn more or to discuss anything you don’t see listed</a>.
+      </p>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="rates" aria-label="Rates">
+      <ul class="container">
+        {
+          rates.map((r) => (
+            <li>
+              <span class="big">{r.big}</span>
+              <span class="small">{r.small}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <ServiceList />
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <h2 id="cta-title">Think we can help? Send me a note today!</h2>
+        <div><a class="btn" href={CONTACT_URL}>Contact The Team</a></div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="container newsletter" aria-label="Newsletter">
+      <p class="pitch">
+        Join the For Creators By Creators Creator Intel Newsletter for tips, insight, and guidance on how to grow, protect, and monetize your brand.
+      </p>
+      <div>
+        <NewsletterForm id="nl-services" />
+        <p class="privacy">We respect your privacy.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .hero {
+    background: var(--navy);
+    color: var(--cream);
+  }
+  .hero-copy {
+    padding-top: clamp(64px, 8vw, 120px);
+    padding-bottom: clamp(56px, 6vw, 88px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 40px clamp(40px, 6vw, 96px);
+    align-items: end;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(64px, 9vw, 148px);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    margin: 0;
+  }
+  .hero-copy p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--mist-2);
+  }
+  .hero-copy a {
+    color: var(--cream);
+    text-underline-offset: 4px;
+  }
+  .hero-copy a:hover {
+    color: var(--peri);
+  }
+
+  .rates {
+    background: var(--sand);
+    padding: clamp(48px, 6vw, 80px) 0;
+  }
+  .rates ul {
+    list-style: none;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 32px;
+  }
+  .rates li {
+    border-top: 2px solid var(--navy);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .big {
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .small {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--slate);
+    text-wrap: pretty;
+  }
+
+  .cta {
+    background: var(--navy);
+    color: var(--cream);
+    padding: clamp(72px, 9vw, 128px) 0;
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 40px 56px;
+    align-items: end;
+  }
+  .cta h2 {
+    font-weight: 600;
+    font-size: clamp(44px, 5.2vw, 80px);
+    line-height: 0.98;
+    margin: 0;
+    letter-spacing: -0.04em;
+  }
+  .cta .btn {
+    background: var(--cream);
+    color: var(--navy);
+    padding: 20px 30px;
+    font-size: 18px;
+  }
+  .cta .btn:hover {
+    background: var(--peri);
+    color: var(--navy);
+  }
+
+  .newsletter {
+    padding-top: clamp(64px, 8vw, 104px);
+    padding-bottom: clamp(64px, 8vw, 104px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 32px 56px;
+    align-items: end;
+  }
+  .pitch {
+    margin: 0;
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .privacy {
+    margin: 0;
+    font-size: 14px;
+    color: var(--slate);
+  }
+</style>

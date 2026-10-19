@@ -17,12 +17,15 @@ export const TEDX_VIDEO_ID = '7CnbEt-R81U';
 
 export type Link = { label: string; href?: string };
 
+// Where "Contact the team" links go until a contact page exists.
+export const CONTACT_URL = '/#contact';
+
 export const nav: Link[] = [
-  { label: 'Services', href: '#services' },
-  { label: 'Resources', href: '#newsletter' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'FAQ', href: '#router' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Services', href: '/services' },
+  { label: 'Resources', href: '/#newsletter' },
+  { label: 'Testimonials', href: '/#testimonials' },
+  { label: 'FAQ', href: '/#router' },
+  { label: 'Contact', href: '/#contact' },
 ];
 
 // Shown as text for now. Swap for logo images when available.
@@ -53,14 +56,71 @@ export const clients: Client[] = [
   { name: 'Creator name', niche: 'Education · TikTok', followers: '2.6M followers' },
 ];
 
-// Each row will link to its own service page once those exist.
+// Homepage practice-area rows. Links jump to the matching service on /services.
 export const practiceAreas: Link[] = [
-  { label: 'Entertainment law', href: '#router' },
-  { label: 'Trademarking', href: '#router' },
-  { label: 'Contracts', href: '#router' },
-  { label: 'Corporate', href: '#router' },
-  { label: 'Employment', href: '#router' },
-  { label: 'Venture capital', href: '#router' },
+  { label: 'Entertainment law', href: '/services' },
+  { label: 'Trademarking', href: '/services#trademarking' },
+  { label: 'Contracts', href: '/services' },
+  { label: 'Corporate', href: '/services#corporate-formation' },
+  { label: 'Employment', href: '/services' },
+  { label: 'Venture capital', href: '/services#venture-capital' },
+];
+
+// Services page: pricing band.
+export const rates = [
+  { big: '$550/hr', small: 'General rate' },
+  { big: 'From $1000', small: 'Packages for corporate formation and trademarking, plus state filing fees' },
+  { big: '$500 flat', small: 'All redlining and negotiating for creator brand deals under $20k' },
+  { big: '3%', small: 'For creator brand deals above $20k' },
+];
+
+// Services page: the list. `id` is the link anchor, e.g. /services#trademarking
+export const services = [
+  {
+    id: 'corporate-formation',
+    name: 'Corporate Formation',
+    body: 'If you want to found a company you came to the right place. Whether it’s a C-corp, S-corp, or LLC we can get your company off the ground in no time (and offer affordable packages to get the job done).',
+  },
+  {
+    id: 'brand-deals',
+    name: 'Brand Deal Negotiation & Redlining',
+    body: 'We will review brand contracts for influencers and creators to ensure you are protected and getting the deal you signed up for. We also create custom agreements for creators and chase down brands that aren’t paying up.',
+  },
+  {
+    id: 'hacked-accounts',
+    name: 'Disabled/Hacked Accounts',
+    body: 'We help folks recover hacked or wrongfully disabled Facebook or Instagram accounts, including by sending demand letters, drafting reports to the attorney general, and litigating.',
+  },
+  {
+    id: 'small-business',
+    name: 'Small Business Counseling',
+    body: 'We help small businesses handle legal issues like contract review, negotiation, incorporation, and general legal work.',
+  },
+  {
+    id: 'trademarking',
+    name: 'Trademarking',
+    body: 'We’ll get your trademark done, start to finish (including search, application, & followup).',
+  },
+  {
+    id: 'stolen-content',
+    name: 'Stolen Content',
+    body: 'We offer take-down requests and cease and desists to de-platform stolen content. We also use litigation tools and small copyright claims court to handle cases should things escalate.',
+  },
+  {
+    id: 'defamation',
+    name: 'Defamation',
+    body: 'We protect creators’ first amendment rights to speak out. We also handle demands to stop folks from defaming and slandering our clients.',
+  },
+  {
+    id: 'venture-capital',
+    name: 'Venture Capital',
+    body: 'We represent small businesses and startups in the venture capital eco-system. Same work as Biglaw at a fraction of the cost. Services include corporate governance, general advise, financing document negotiations, drafting, and review.',
+  },
+  {
+    id: 'prenups',
+    name: 'Prenup Agreements',
+    body: 'We draft and review prenuptial agreements in California for an affordable rate. Let us handle the legal so you can focus on your big day!',
+  },
 ];
 
 export const stats = [
@@ -126,9 +186,9 @@ export const testimonials = [
 
 // Links without an href show as plain text until a destination exists.
 export const footerLinks: Link[] = [
-  { label: 'Practice Areas', href: '#services' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'FAQS', href: '#router' },
+  { label: 'Practice Areas', href: '/services' },
+  { label: 'Testimonials', href: '/#testimonials' },
+  { label: 'FAQS', href: '/#router' },
   { label: 'Free Resources' },
   { label: 'TikTok' },
   { label: 'Instagram' },
