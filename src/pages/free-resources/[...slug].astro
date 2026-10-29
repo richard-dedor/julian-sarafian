@@ -1,0 +1,525 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import PostCard from '../../components/PostCard.astro';
+import NewsletterBand from '../../components/NewsletterBand.astro';
+import Footer from '../../components/Footer.astro';
+import julian from '../../assets/julian.jpg';
+import { getPosts, postUrl, formatDate, type Post } from '../../data/resources';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => {
+    // "More insights": newest posts in the same category, topped up with the newest overall.
+    const others = posts.filter((p) => p !== post);
+    const related = [...others.filter((p) => p.data.category === post.data.category), ...others]
+      .filter((p, j, all) => all.indexOf(p) === j)
+      .slice(0, 3);
+    return {
+      params: { slug: post.id },
+      props: { post, newer: posts[i - 1], older: posts[i + 1], related },
+    };
+  });
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+  related: Post[];
+}
+const { post, newer, older, related } = Astro.props;
+const { title, date, category, excerpt, cover } = post.data;
+const { Content } = await render(post);
+
+const url = new URL(postUrl(post), Astro.site).href;
+const ogImage = new URL((await getImage({ src: cover, width: 1200, format: 'jpg' })).src, Astro.site).href;
+const share = {
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+};
+---
+
+<Base title={`${title} — For Creators By Creators`} description={excerpt} ogType="article" ogImage={ogImage}>
+  <div class="progress" aria-hidden="true"><div data-progress></div></div>
+
+  <div class="hero">
+    <SiteHeader />
+  </div>
+
+  <main id="main">
+    <article>
+      <div class="container head">
+        <a class="back" href="/free-resources">← All insights</a>
+        <h1>{title}</h1>
+        <div class="byline">
+          <Image src={julian} alt="" width={44} height={44} densities={[1, 2]} class="avatar" />
+          <span>Written By <strong>Julian Sarafian</strong></span>
+          <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>
+          <span class="cat">{category}</span>
+        </div>
+      </div>
+
+      <div class="container">
+        <Image src={cover} alt="" widths={[800, 1240, 2000]} sizes="(max-width: 1240px) 100vw, 1240px" class="cover" loading="eager" />
+      </div>
+
+      <div class="container body">
+        <aside class="share" aria-label="Share this post">
+          <span class="share-title">Share</span>
+          <a href={share.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+          <a href={share.facebook} target="_blank" rel="noopener">Facebook</a>
+          <button type="button" data-copy={url}>Copy link</button>
+        </aside>
+
+        <div class="column">
+          <div class="prose">
+            <Content />
+          </div>
+          <div class="author">
+            <Image src={julian} alt="Julian Sarafian" width={88} height={88} densities={[1, 2]} class="author-photo" />
+            <div>
+              <span class="author-name">Julian Sarafian</span>
+              <span class="author-role">Founder, For Creators By Creators</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    {
+      (newer || older) && (
+        <nav class="container pager" aria-label="More posts">
+          {newer ? (
+            <a href={postUrl(newer)} rel="prev">
+              <span class="label">← Previous</span>
+              <span class="title">{newer.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {older && (
+            <a href={postUrl(older)} rel="next" class="next">
+              <span class="label">Next →</span>
+              <span class="title">{older.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+
+    <section class="container related" aria-labelledby="related-title">
+      <div class="related-head">
+        <h2 id="related-title">More insights</h2>
+        <a href="/free-resources">See all →</a>
+      </div>
+      <ul class="grid">
+        {
+          related.map((p) => (
+            <li>
+              <PostCard post={p} excerpt={false} />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <NewsletterBand formId="nl-post" />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .progress {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 4px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .progress div {
+    height: 100%;
+    background: var(--peri);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  .hero {
+    background: var(--navy);
+  }
+
+  .head {
+    padding-top: clamp(40px, 5vw, 72px);
+    padding-bottom: clamp(32px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .back {
+    align-self: flex-start;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--peri-deep);
+  }
+  .back:hover {
+    color: var(--navy);
+  }
+  h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: clamp(44px, 5.6vw, 88px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    max-width: 1080px;
+    overflow-wrap: break-word;
+  }
+  .byline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 16px;
+    color: var(--slate);
+  }
+  .byline strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .byline :global(.avatar) {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+  .cat {
+    color: var(--peri-deep);
+    font-weight: 600;
+  }
+  .container :global(.cover) {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    background: var(--tile-bg);
+  }
+
+  .body {
+    padding-top: clamp(48px, 6vw, 88px);
+    padding-bottom: clamp(48px, 6vw, 88px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px clamp(40px, 6vw, 96px);
+    align-items: flex-start;
+  }
+  .share {
+    flex: 1 1 200px;
+    max-width: 240px;
+    position: sticky;
+    top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 15px;
+  }
+  .share-title {
+    font-weight: 600;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+  }
+  .share a,
+  .share button {
+    align-self: flex-start;
+    text-decoration: none;
+    color: var(--slate);
+    font-size: 15px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .share a:hover,
+  .share button:hover {
+    color: var(--navy);
+  }
+  .column {
+    flex: 999 1 560px;
+    min-width: 0;
+    max-width: 720px;
+  }
+
+  /* Article body (comes from the post's .md file). */
+  .prose {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--body-ink);
+  }
+  .prose :global(:is(p, ul, ol, h2, h3, h4, figure, blockquote)) {
+    margin: 0;
+  }
+  .prose > :global(p:first-child) {
+    font-size: clamp(23px, 2vw, 27px);
+    line-height: 1.5;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .prose :global(h2) {
+    margin-top: 24px;
+    font-weight: 600;
+    font-size: clamp(30px, 3vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--navy);
+  }
+  .prose :global(h3) {
+    margin-top: 8px;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--navy);
+  }
+  .prose :global(:is(ul, ol)) {
+    padding-left: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .prose :global(li > :is(ul, ol)) {
+    margin-top: 10px;
+  }
+  .prose :global(strong) {
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .prose :global(a) {
+    color: var(--navy);
+    font-weight: 500;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .prose :global(a:hover) {
+    color: var(--peri-deep);
+  }
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--navy);
+    padding-left: 24px;
+    color: var(--navy);
+  }
+  .prose :global(figcaption) {
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--slate);
+  }
+  .prose :global(.video) {
+    aspect-ratio: 16 / 9;
+    background: var(--navy);
+  }
+  .prose :global(.video iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+  .prose :global(.points) {
+    border-top: 2px solid var(--navy);
+  }
+  .prose :global(.point) {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule-light);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .prose :global(.point h3) {
+    margin: 0;
+  }
+  .prose :global(.cta) {
+    background: var(--navy);
+    color: var(--cream);
+    padding: clamp(28px, 3vw, 44px);
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  .prose :global(.cta p) {
+    font-size: clamp(22px, 2vw, 26px);
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .prose :global(.cta .btn) {
+    background: var(--cream);
+    color: var(--navy);
+    padding: 16px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .prose :global(.cta .btn:hover) {
+    background: var(--peri);
+    color: var(--navy);
+  }
+  .prose :global(.disclaimer) {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--slate);
+    font-style: italic;
+  }
+
+  .author {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-top: 2px solid var(--navy);
+    padding-top: 24px;
+    margin-top: 40px;
+  }
+  .author :global(.author-photo) {
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    object-position: center 15%;
+    flex: none;
+  }
+  .author div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .author-name {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .author-role {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--slate);
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  }
+  .pager > * {
+    border-top: 1px solid var(--rule-light);
+    border-bottom: 1px solid var(--rule-light);
+  }
+  .pager a {
+    padding: 32px 32px 32px 0;
+    text-decoration: none;
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .pager a.next {
+    padding: 32px 0 32px 32px;
+    text-align: right;
+  }
+  .pager .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate);
+  }
+  .pager .title {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    transition: color 0.2s;
+  }
+  .pager a:hover .title {
+    color: var(--peri-deep);
+  }
+
+  .related {
+    padding-top: clamp(64px, 8vw, 112px);
+    padding-bottom: clamp(64px, 8vw, 112px);
+  }
+  .related-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  .related h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(36px, 4vw, 60px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  .related-head a {
+    font-weight: 600;
+    font-size: 17px;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 48px 32px;
+  }
+
+  @media (max-width: 760px) {
+    .share {
+      position: static;
+      max-width: none;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px 20px;
+    }
+    .share-title {
+      flex-basis: 100%;
+      margin-bottom: 0;
+    }
+    .pager a,
+    .pager a.next {
+      padding: 24px 0;
+    }
+  }
+</style>
+
+<script>
+  // Reading progress bar.
+  const bar = document.querySelector<HTMLElement>('[data-progress]');
+  if (bar) {
+    const update = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, el.scrollTop / max) : 0})`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  // "Copy link" shows "Link copied" for 2 seconds.
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    let timer: number | undefined;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy!);
+        btn.textContent = 'Link copied';
+      } catch {
+        btn.textContent = 'Copy failed';
+      }
+      clearTimeout(timer);
+      timer = window.setTimeout(() => (btn.textContent = 'Copy link'), 2000);
+    });
+  });
+</script>

@@ -1,3 +1,9 @@
+import teresaJack from '../assets/testimonials/teresa-jack.jpg';
+import arshiaFirouzi from '../assets/testimonials/arshia-firouzi.webp';
+import haelySawyer from '../assets/testimonials/haely-sawyer.webp';
+import sevMozhaev from '../assets/testimonials/sev-mozhaev.webp';
+import michelle from '../assets/testimonials/michelle.webp';
+
 // All editable homepage content lives here.
 // Change text, add or remove items, and the page updates to match.
 
@@ -20,11 +26,14 @@ export type Link = { label: string; href?: string };
 // Where "Contact the team" links go until a contact page exists.
 export const CONTACT_URL = '/#contact';
 
+// Free Brand Deal Course (Free Resources page).
+export const COURSE_URL = 'https://pillar.io/julian/checkout/dea5e4f0-63f7-11ee-9b2f-bf399bc0602e';
+
 export const nav: Link[] = [
   { label: 'Services', href: '/services' },
-  { label: 'Resources', href: '/#newsletter' },
-  { label: 'Testimonials', href: '/#testimonials' },
-  { label: 'FAQ', href: '/#router' },
+  { label: 'Resources', href: '/free-resources' },
+  { label: 'Testimonials', href: '/client-testimonials' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -184,12 +193,232 @@ export const testimonials = [
   },
 ];
 
+// Client Testimonials page: big stories with photos. The first paragraph of
+// each quote is shown large. Photos live in src/assets/testimonials/.
+export const featuredStories = [
+  {
+    name: 'Teresa Jack',
+    role: 'Creator',
+    photo: teresaJack,
+    quote: [
+      '“Julian believed me when I came to him with my case.',
+      'He took it seriously when other firms didn’t. And we won a large settlement. In a world committed to underestimating and ripping off small creators, Julian fought for me.”',
+    ],
+  },
+  {
+    name: 'Arshia Firouzi',
+    role: 'Co-Founder, Ravata Solutions',
+    photo: arshiaFirouzi,
+    quote: [
+      '“First of all, responsive!',
+      'I never had to wait more than a day, and usually less than that, for work to get done. How refreshing! Julian was a great advisor for my start-up. He helped mentor and guide me through the process of SAFE fundraising and commercial and contract issues my company had. And he’s a fraction of the cost of larger firms.”',
+    ],
+  },
+  {
+    name: 'Haely Sawyer',
+    role: 'Creator & founder',
+    photo: haelySawyer,
+    quote: [
+      '“For Creators By Creators was hired after I expressed concerns about a big influencer online.',
+      'They accused me of defamation, I knew I needed a law firm that understood social media and how muddy the water can get in these cases. They allowed me to vent through my anger while still advising me on the legalities. Over the course of a few months I was able to defuse the situation through their guidance and avoid court. Having a firm that is compassionate is essential in this world today. They provided that and great assistance.”',
+    ],
+  },
+  {
+    name: 'Sev Mozhaev',
+    role: '@sevspics, creator',
+    photo: sevMozhaev,
+    quote: [
+      '“When discovering For Creators, By Creators, I was immediately invested in acquiring the team to be in my corner.',
+      'When it comes to my personal brand and the content I share online in collaboration with other brands, there is no comparison to the experience For Creators, By Creators has in this field when it comes to legal representation.',
+      'Julian and his team are incredibly responsive to my queries and concerns. When it comes to assisting me in drawing up a contract or looking over another, I go to the team with no hesitation because not only are they loyal, but their rates are super accessible!',
+      'Looking forward to working on many more future projects knowing I have a talented team ensuring I am looked after well with my contracts and agreements.”',
+    ],
+  },
+  {
+    name: 'Michelle',
+    role: '@misomelon, creator',
+    photo: michelle,
+    quote: [
+      '“After sharing my dog’s experience at luxury pet hotel chain on my social media, their lawyer reached out with potential legal action.',
+      'I had never been contacted by a lawyer before. To say the least, I was shocked and scared. I connected with Julian at FCBC, and knew I needed to hire them within five minutes.',
+      'They understand the intersection of social media and law, including cease & desisted orders and defamation claims, like no other. Over the next few weeks, Julian and the FCBC helped de-escalate the situation and prevent litigation. They communicated and reassured me every step of the way. I love working with FCBC and still use them for brand deals & contract reviewed to this day.”',
+    ],
+  },
+];
+
+// Client Testimonials page: shorter quotes without photos.
+export const moreTestimonials = [
+  {
+    name: 'Dr. Kojo Sarfo',
+    handle: '@dr.kojosarfo',
+    role: 'creator',
+    quote: [
+      '“I came across a very fantastic attorney, a man by the name of Julian Sarafian. This is a guy who went to Harvard. he’s educated, and he’s posted about his mental health journey online. His journey is not only inspiring, but I can relate to it.',
+      'And knowing that I have representation by an attorney who has experience as a content creator and who also has lived experience with mental health struggles, it makes me so much more confident in knowing that as I move forward with future business transactions, my company, my community, that we’ve built here collectively online and the people that I love will not be compromised neither financially nor with our information.',
+      'I’m so grateful to be represented by this attorney.”',
+    ],
+  },
+  {
+    name: 'Kelly Tran',
+    handle: '@beautybykellytran',
+    role: 'creator',
+    quote: [
+      '“I was introduced to Julian when I was looking for an attorney that specialized in working with small businesses and entrepreneurs with an emphasis in the beauty space and social content. I was pleasantly surprised with how quickly, efficient, and professional working with Julian was.',
+      'He explained things to me that made sense and responded to my long list of questions in a timely manner. I appreciate the attention to detail he has and the affordability of his services.',
+      'Being able to be set up for success and protect my business in a world of uncertainty was a goal of mine this year and I wasn’t sure how I’d get here if it wasn’t for Julian. After more than a decade of being in business, I am now able to move forward confidently in my business by sending contracts to my clients without the fear of them misinterpreting my terms all thanks to Julian!”',
+    ],
+  },
+  {
+    name: 'Jenna',
+    handle: '@jennamediaco',
+    role: 'creator',
+    quote: [
+      '“I love how their goal is to make it easy for us as creators to work with the law and not let this happen anymore. Their team is literally a team full of creators, so they understand our side. We need to let these slimy brands and agencies know we are not just going to roll over—we have a team on our side that is ready to help us. I’m super excited to announce that I’m working with For Creators By Creators.”',
+    ],
+  },
+  {
+    name: 'Maes Mystic',
+    handle: '@maesmystics',
+    role: 'creator',
+    quote: [
+      '“In todays age, you’re more than likely to get scammed & have content stolen. Take this as your sign to hire a lawyer. FCBC and Julian did an AMAZING job at helping me.”',
+    ],
+  },
+  {
+    name: 'Nurjahan Boulden',
+    handle: '@nurjahanboulden',
+    role: 'creator',
+    quote: ['“I finally got my Facebook page back!!! HUGE thanks to Julian Sarafian at For Creators by Creators PC for getting it back to me!”'],
+  },
+];
+
+// Client Testimonials page: "Hear directly from creators" videos. Until real
+// videos are added, numbered placeholder tiles show. Add YouTube Shorts IDs,
+// e.g. ['abc123XYZ', ...].
+export const creatorVideoIds: string[] = [];
+
 // Links without an href show as plain text until a destination exists.
 export const footerLinks: Link[] = [
   { label: 'Practice Areas', href: '/services' },
-  { label: 'Testimonials', href: '/#testimonials' },
-  { label: 'FAQS', href: '/#router' },
-  { label: 'Free Resources' },
+  { label: 'Testimonials', href: '/client-testimonials' },
+  { label: 'FAQS', href: '/faq' },
+  { label: 'Free Resources', href: '/free-resources' },
   { label: 'TikTok' },
   { label: 'Instagram' },
+];
+
+// FAQ page. Each answer is a list of paragraphs; a paragraph is a list of
+// pieces, either plain text or a link { t: 'text', href: '...' }.
+export type FaqPiece = string | { t: string; href: string };
+export type Faq = { id: string; q: string; a: FaqPiece[][] };
+
+export const faqGroups: { id: string; title: string; items: Faq[] }[] = [
+  {
+    id: 'working-with-us',
+    title: 'Working with us',
+    items: [
+      {
+        id: 'need-lawyer',
+        q: 'Do I really need a lawyer?',
+        a: [
+          ['If you are asking yourself that question the answer is probably yes.'],
+          [
+            'Being a creator is like running a business, and there are tons of ways a lawyer (like us!) can help you, from corporate formation, to contract review, to reducing litigation risk, and protecting your intellectual property.',
+          ],
+        ],
+      },
+      {
+        id: 'not-listed',
+        q: 'I have a legal case and it’s not listed in your areas of expertise. Can you still help me?',
+        a: [[{ t: 'Reach out to our team', href: CONTACT_URL }, ' and we can see how we can help!']],
+      },
+      {
+        id: 'cease-and-desist',
+        q: 'I just got a cease and desist letter and I’m scared. What do I do?',
+        a: [[{ t: 'Contact us', href: CONTACT_URL }, ' — we will help you get it sorted ASAP.']],
+      },
+      {
+        id: 'free-advice',
+        q: 'Do you give out free advice?',
+        a: [
+          [
+            'We don’t give out free legal advice but we do offer a lot of tips, tricks, and knowledge about the creator economy and small businesses on our ',
+            { t: 'TikTok', href: 'https://www.tiktok.com/@forcreatorsbycreators' },
+            ' and ',
+            { t: 'Instagram', href: 'https://www.instagram.com/forcreatorsbycreatorspc/' },
+            ', so drop us a follow.',
+          ],
+        ],
+      },
+      {
+        id: 'cancel',
+        q: 'What do I do if I don’t need your services anymore? Do I have to cancel?',
+        a: [
+          [
+            'Nothing. Once you hire us we will be here for you going forward for anything legal we can help with. No need to cancel or “fire” us — in fact, we think you should keep us around because you signed with us already!',
+          ],
+        ],
+      },
+    ],
+  },
+  {
+    id: 'rates-billing',
+    title: 'Rates & billing',
+    items: [
+      {
+        id: 'rates',
+        q: 'What are your rates?',
+        a: [
+          [
+            'For social media brand deals my rate is a flat $500 (for deals less than $20k) or 3% (for deals $20k or greater) of gross revenue for unlimited contract review, negotiation, and advisement. Other general legal work is $550/hour. Corporate formations and trademark filings begin at $1000 plus filing fees. I also offer fractional general counsel work for a negotiable flat fee per month. Chat with me about flexible payment structures!',
+          ],
+        ],
+      },
+      {
+        id: 'afford',
+        q: 'Can I afford your firm?',
+        a: [
+          [
+            'We talk to every client to determine if we can help them with their case. Even if you don’t have funds, reach out and have a conversation with us. I create custom plans that fit clients’ budgets all the time.',
+          ],
+        ],
+      },
+      {
+        id: 'fee-caps',
+        q: 'Do you provide fee caps?',
+        a: [
+          [
+            'Yes, we do. Just make sure to tell Julian at ',
+            { t: 'julian@forcreatorsbycreators.co', href: 'mailto:julian@forcreatorsbycreators.co' },
+            ' and we will honor it.',
+          ],
+        ],
+      },
+      {
+        id: 'billing',
+        q: 'When do I get charged/billed?',
+        a: [
+          [
+            'We send invoices at the beginning of each month for the prior month’s legal work. Payments are made via Zelle to ',
+            { t: 'team@forcreatorsbycreators.co', href: 'mailto:team@forcreatorsbycreators.co' },
+            '.',
+          ],
+          [
+            'If you want to know your balance at any time, feel free to email us at ',
+            { t: 'team@forcreatorsbycreators.co', href: 'mailto:team@forcreatorsbycreators.co' },
+            ' with the request and we will send you your balance.',
+          ],
+        ],
+      },
+      {
+        id: 'forms',
+        q: 'What if I just want a form document?',
+        a: [
+          [
+            'No problem. Once you sign with our firm you can purchase customized form documents at the flat rate of $400 each, or $750 for brand deal form agreements.',
+          ],
+        ],
+      },
+    ],
+  },
 ];

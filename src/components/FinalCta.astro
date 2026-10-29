@@ -1,16 +1,22 @@
 ---
 import NewsletterForm from './NewsletterForm.astro';
 import { CONSULT_URL } from '../data/site';
+
+interface Props {
+  label?: string; // button text
+  formId?: string; // unique per page, for the newsletter form
+}
+const { label = 'Book my free consult', formId = 'nl-home' } = Astro.props;
 ---
 
 <section id="contact" class="container" aria-labelledby="cta-title">
   <h2 id="cta-title">I handle legal so you can build your business</h2>
   <div class="right">
-    <a class="btn consult" href={CONSULT_URL}>Book my free consult</a>
+    <a class="btn consult" href={CONSULT_URL}>{label}</a>
     <p id="newsletter" class="blurb">
       Join the For Creators By Creators Creator Intel Newsletter for tips, insight, and guidance on how to grow, protect, and monetize your brand.
     </p>
-    <NewsletterForm id="nl-home" />
+    <NewsletterForm id={formId} />
   </div>
 </section>
 

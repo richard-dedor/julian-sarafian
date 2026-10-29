@@ -1,0 +1,81 @@
+---
+// Navy "Creator Intel Newsletter" signup band (Free Resources pages).
+import NewsletterForm from './NewsletterForm.astro';
+
+interface Props {
+  formId: string; // unique per page
+}
+const { formId } = Astro.props;
+---
+
+<section id="newsletter" class="band" aria-labelledby={`${formId}-title`}>
+  <div class="container inner">
+    <div class="copy">
+      <h2 id={`${formId}-title`}>Creator Intel Newsletter</h2>
+      <p>Join the For Creators By Creators Creator Intel Newsletter for tips, insight, and guidance on how to grow, protect, and monetize your brand.</p>
+    </div>
+    <div>
+      <NewsletterForm id={formId} />
+      <p class="privacy">We respect your privacy.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band {
+    background: var(--navy);
+    color: var(--cream);
+    padding: clamp(72px, 9vw, 128px) 0;
+  }
+  .inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 40px 56px;
+    align-items: end;
+  }
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(44px, 5.2vw, 80px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+  .copy p {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--mist-2);
+    max-width: 520px;
+  }
+  .privacy {
+    margin: 0;
+    font-size: 14px;
+    color: var(--peri);
+  }
+  /* The shared form is styled for cream backgrounds; recolor it for navy. */
+  .band :global(.field) {
+    border-bottom-color: var(--peri);
+  }
+  .band :global(input),
+  .band :global(button) {
+    color: var(--cream);
+  }
+  .band :global(input) {
+    font-size: 20px;
+  }
+  .band :global(input::placeholder) {
+    color: var(--mist-3);
+  }
+  .band :global(button:hover) {
+    color: var(--peri);
+  }
+  .band :global(.status),
+  .band :global(.status.error) {
+    color: var(--mist-2);
+  }
+</style>

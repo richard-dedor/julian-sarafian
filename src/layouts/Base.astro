@@ -4,9 +4,11 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  ogType?: 'website' | 'article';
+  ogImage?: string; // absolute URL
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogType = 'website', ogImage } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -20,7 +22,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
     <meta property="og:url" content={canonical} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -1,0 +1,463 @@
+---
+import Base from '../layouts/Base.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
+import Footer from '../components/Footer.astro';
+import { faqGroups, CONSULT_URL, CONTACT_URL } from '../data/site';
+
+const firstId = faqGroups[0]?.items[0]?.id;
+---
+
+<Base
+  title="FAQ | For Creators By Creators"
+  description="Answers to common legal questions from creators: do you need a lawyer, rates and billing, fee caps, form documents, cease and desist letters, and more."
+>
+  <div class="hero">
+    <SiteHeader />
+    <div class="container hero-copy">
+      <h1>Frequently Asked Legal Questions</h1>
+      <div class="hero-side">
+        <p>Getting legal support for creators can be complicated. We have tried to make it easy.</p>
+        <div class="search">
+          <label class="visually-hidden" for="faq-search">Search questions</label>
+          <input id="faq-search" type="search" placeholder="Search questions" autocomplete="off" data-faq-search />
+          <button type="button" class="clear" data-faq-clear hidden>Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="container questions" aria-label="Questions" data-faq>
+      <aside>
+        <nav aria-label="FAQ topics" class="topics">
+          {
+            faqGroups.map((g) => (
+              <a href={`#${g.id}`}>
+                <span>{g.title}</span>
+                <span class="count">{g.items.length}</span>
+              </a>
+            ))
+          }
+        </nav>
+        <a class="btn consult" href={CONSULT_URL}>Get a Free Consult</a>
+      </aside>
+
+      <div class="groups">
+        <p class="empty" data-faq-empty hidden>
+          No questions match “<span data-faq-term></span>”. <a href={CONTACT_URL}>Reach out to our team</a> and we can see how we can help!
+        </p>
+        {
+          faqGroups.map((g) => (
+            <div class="group" id={g.id} data-group>
+              <h2>{g.title}</h2>
+              <div class="list">
+                {g.items.map((item) => {
+                  const open = item.id === firstId;
+                  return (
+                    <div class="item" id={item.id} data-item>
+                      <h3>
+                        <button type="button" aria-expanded={open ? 'true' : 'false'} aria-controls={`${item.id}-panel`} id={`${item.id}-q`}>
+                          <span>{item.q}</span>
+                          <span class="plus" aria-hidden="true">+</span>
+                        </button>
+                      </h3>
+                      <div class:list={['panel', { open }]} id={`${item.id}-panel`} role="region" aria-labelledby={`${item.id}-q`} inert={!open}>
+                        <div class="clip">
+                          <div class="inner">
+                            {item.a.map((para) => (
+                              <p>
+                                {para.map((piece) =>
+                                  typeof piece === 'string' ? piece : <a href={piece.href}>{piece.t}</a>,
+                                )}
+                              </p>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <div class="container cta-inner">
+        <h2 id="cta-title">Think we can help? Send me a note today!</h2>
+        <div><a class="btn" href={CONTACT_URL}>Contact The Team</a></div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="container newsletter" aria-label="Newsletter">
+      <p class="pitch">
+        Join the For Creators By Creators Creator Intel Newsletter for tips, insight, and guidance on how to grow, protect, and monetize your brand.
+      </p>
+      <div>
+        <NewsletterForm id="nl-faq" />
+        <p class="privacy">We respect your privacy.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .hero {
+    background: var(--navy);
+    color: var(--cream);
+  }
+  .hero-copy {
+    padding-top: clamp(64px, 8vw, 120px);
+    padding-bottom: clamp(56px, 6vw, 88px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: 40px clamp(40px, 6vw, 96px);
+    align-items: end;
+  }
+  h1 {
+    font-weight: 700;
+    font-size: clamp(48px, 7.4vw, 120px);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-side {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .hero-side p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--mist-2);
+    text-wrap: pretty;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 2px solid var(--peri);
+  }
+  .search:focus-within {
+    outline: 2px solid var(--peri);
+    outline-offset: 4px;
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    padding: 14px 0;
+    font-size: 20px;
+    outline: none;
+    color: var(--cream);
+  }
+  .search input::placeholder {
+    color: #8fa3c4;
+  }
+  .search input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .clear {
+    border: 0;
+    background: transparent;
+    color: var(--peri);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .clear:hover {
+    color: var(--cream);
+  }
+
+  .questions {
+    padding-top: clamp(56px, 7vw, 104px);
+    padding-bottom: clamp(56px, 7vw, 104px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px clamp(40px, 5vw, 80px);
+    align-items: flex-start;
+  }
+  aside {
+    position: sticky;
+    top: 24px;
+    flex: 1 1 220px;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+  }
+  .topics {
+    display: flex;
+    flex-direction: column;
+  }
+  .topics a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule-light);
+    text-decoration: none;
+    color: var(--navy);
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .topics a:hover {
+    color: var(--peri-deep);
+  }
+  .count {
+    color: var(--peri-mid);
+    font-weight: 500;
+  }
+  .consult {
+    margin-top: 24px;
+    align-self: flex-start;
+    background: var(--navy);
+    color: var(--cream);
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+  .consult:hover {
+    background: var(--peri-deep);
+    color: var(--cream);
+  }
+
+  .groups {
+    flex: 999 1 520px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(48px, 6vw, 80px);
+  }
+  .group {
+    scroll-margin-top: 24px;
+  }
+  .group h2 {
+    margin: 0 0 20px;
+    font-weight: 600;
+    font-size: clamp(32px, 3.4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  .list {
+    border-top: 2px solid var(--navy);
+  }
+  .item {
+    border-bottom: 1px solid var(--rule-light);
+    scroll-margin-top: 24px;
+  }
+  h3 {
+    margin: 0;
+    font: inherit;
+  }
+  .item button {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 0;
+    border: 0;
+    background: transparent;
+    color: var(--navy);
+    font-size: clamp(20px, 1.9vw, 26px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    text-wrap: pretty;
+  }
+  .item button:hover {
+    color: var(--peri-deep);
+  }
+  .plus {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--peri-mid);
+    transition: transform 0.3s;
+  }
+  .item button[aria-expanded='true'] .plus {
+    transform: rotate(45deg);
+  }
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease;
+  }
+  .panel.open {
+    grid-template-rows: 1fr;
+  }
+  .clip {
+    overflow: hidden;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0 48px 28px 0;
+    max-width: 760px;
+  }
+  .inner p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--body-ink);
+    text-wrap: pretty;
+  }
+  .inner a,
+  .empty a {
+    color: var(--navy);
+    font-weight: 600;
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+  }
+  .inner a:hover,
+  .empty a:hover {
+    color: var(--peri-deep);
+  }
+  .empty {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--slate);
+  }
+
+  .cta {
+    background: var(--navy);
+    color: var(--cream);
+    padding: clamp(72px, 9vw, 128px) 0;
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 40px 56px;
+    align-items: end;
+  }
+  .cta h2 {
+    font-weight: 600;
+    font-size: clamp(44px, 5.2vw, 80px);
+    line-height: 0.98;
+    margin: 0;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  .cta .btn {
+    background: var(--cream);
+    color: var(--navy);
+    padding: 20px 30px;
+    font-size: 18px;
+  }
+  .cta .btn:hover {
+    background: var(--peri);
+    color: var(--navy);
+  }
+
+  .newsletter {
+    padding-top: clamp(64px, 8vw, 104px);
+    padding-bottom: clamp(64px, 8vw, 104px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    gap: 32px 56px;
+    align-items: end;
+  }
+  .pitch {
+    margin: 0;
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.3;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .privacy {
+    margin: 0;
+    font-size: 14px;
+    color: var(--slate);
+  }
+
+  @media (max-width: 760px) {
+    aside {
+      position: static;
+      max-width: none;
+    }
+    .inner {
+      padding-right: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel,
+    .plus {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-faq]');
+  const search = document.querySelector<HTMLInputElement>('[data-faq-search]');
+  const clear = document.querySelector<HTMLButtonElement>('[data-faq-clear]');
+
+  if (root && search && clear) {
+    const items = [...root.querySelectorAll<HTMLElement>('[data-item]')];
+    const groups = [...root.querySelectorAll<HTMLElement>('[data-group]')];
+    const empty = root.querySelector<HTMLElement>('[data-faq-empty]')!;
+    const term = root.querySelector<HTMLElement>('[data-faq-term]')!;
+    // Which questions the visitor opened, so clearing a search restores them.
+    const userOpen = new Set(items.filter((i) => i.querySelector('button')!.getAttribute('aria-expanded') === 'true').map((i) => i.id));
+
+    const setOpen = (item: HTMLElement, open: boolean) => {
+      const btn = item.querySelector('button')!;
+      const panel = item.querySelector<HTMLElement>('.panel')!;
+      btn.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('open', open);
+      panel.inert = !open;
+    };
+
+    items.forEach((item) =>
+      item.querySelector('button')!.addEventListener('click', () => {
+        const open = item.querySelector('button')!.getAttribute('aria-expanded') !== 'true';
+        setOpen(item, open);
+        if (open) userOpen.add(item.id);
+        else userOpen.delete(item.id);
+      }),
+    );
+
+    const applySearch = () => {
+      const q = search.value.trim().toLowerCase();
+      clear.hidden = !q;
+      let any = false;
+      items.forEach((item) => {
+        const match = !q || item.textContent!.toLowerCase().includes(q);
+        item.hidden = !match;
+        if (match) any = true;
+        setOpen(item, q ? match : userOpen.has(item.id));
+      });
+      groups.forEach((g) => (g.hidden = !g.querySelector('[data-item]:not([hidden])')));
+      term.textContent = search.value.trim();
+      empty.hidden = any;
+    };
+
+    search.addEventListener('input', applySearch);
+    clear.addEventListener('click', () => {
+      search.value = '';
+      applySearch();
+      search.focus();
+    });
+
+    // Opening /faq#rates (etc.) expands that question.
+    const openFromHash = () => {
+      const item = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (item && item.matches('[data-item]')) {
+        setOpen(item, true);
+        userOpen.add(item.id);
+      }
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
+  }
+</script>
